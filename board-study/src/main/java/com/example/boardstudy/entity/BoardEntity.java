@@ -31,7 +31,7 @@ public class BoardEntity extends BaseEntity {
     private int boardHits;
 
     // dto -> entity로 옮겨담는 작업 (service 참고)
-    public static BoardEntity toSaveEntity(BoardDTO boardDTO) { //save.html 에 입력한 값을 boardDto에  담아온것을 entity로 옮겨담는다
+    public static BoardEntity toSaveEntity(BoardDTO boardDTO) { //save.html 에 입력한 값을 boardDto에  담아온것을 entity로 옮겨담는다[,
         BoardEntity boardEntity = new BoardEntity();
         boardEntity.setBoardWriter(boardDTO.getBoardWriter());
         boardEntity.setBoardPass(boardDTO.getBoardPass());

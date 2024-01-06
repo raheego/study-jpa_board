@@ -5,8 +5,10 @@ import com.example.boardstudy.service.BoardService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @Controller
@@ -21,13 +23,23 @@ public class BoardController {
         return "save";
     }
 
-
     @PostMapping("/save")
     public String save(@ModelAttribute BoardDTO boardDTO){
         System.out.println("boardDTO = " + boardDTO);
         boardService.save(boardDTO);
         return "index";
     }
+
+    //글목록
+    @GetMapping("/")
+    public String findAll(Model model){ //model : db로 부터 데이터를 가져와야 한다. = 보여질 데이터
+        // DB에서 전체 게시글 데이터를 가져와서 list.html에 보여준다.
+        List<BoardDTO> boardDTOList = boardService.findAll();
+        model.addAttribute("boardList", boardDTOList);
+        return "list";
+    }
+
+
 }
 
 
