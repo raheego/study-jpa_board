@@ -52,9 +52,9 @@ public class BoardController {
 
     //글수정
     @GetMapping("/update/{id}")
-    public String updateFrom(@PathVariable Long id, Model model) {
-        BoardDTO boardDTO = boardService.findById(id); //게시글에 정보만
-        model.addAttribute("boardUpdateForm", boardDTO);
+    public String updateForm(@PathVariable Long id, Model model) {
+        BoardDTO boardDTO = boardService.findById(id);
+        model.addAttribute("boardUpdate", boardDTO);
 
         return "update";
     }
