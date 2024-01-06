@@ -27,8 +27,9 @@ public class CommentEntity extends BaseEntity {
     private BoardEntity boardEntity;
 
 
+
     public static CommentEntity toSaveEntity(CommentDTO commentDTO, BoardEntity boardEntity) {
-        CommentEntity commentEntity = new CommentEntity();
+        CommentEntity commentEntity = new CommentEntity(); //클래슨 ㅐ부니까 객체생성
         commentEntity.setCommentWriter(commentDTO.getCommentWriter());
         commentEntity.setCommentContents(commentDTO.getCommentContents());
         commentEntity.setBoardEntity(boardEntity);
