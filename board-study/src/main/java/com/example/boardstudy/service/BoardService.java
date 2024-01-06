@@ -5,6 +5,11 @@ import com.example.boardstudy.entity.BoardEntity;
 import com.example.boardstudy.repository.BoardRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,13 +35,14 @@ public class BoardService { //비즈니스 로직
 
     //글조회
     public List<BoardDTO> findAll() {
-        List<BoardEntity> boardEntityList = boardRepository.findAll(); //entity로 넘겨온 객체를 dto로
+        //entity로 넘겨온 객체를 dto로 변환해야함
+        List<BoardEntity> boardEntityList = boardRepository.findAll();
        //객체 생성, 위 entity가 dto로 넘겨받을
         List<BoardDTO> boardDTOList = new ArrayList<>();
 
         //반복문을 통해서 entity데이터 꺼내와서 dto로 변환을 하고 dtolist에 담음
         for (BoardEntity boardEntity: boardEntityList) {
-            boardDTOList.add(BoardDTO.toBoardDTO(boardEntity));
+            boardDTOList.add(BoardDTO.toBoardDTO(boardEntity)); //여기 변환
         }
         return boardDTOList;
     }
@@ -71,5 +77,28 @@ public class BoardService { //비즈니스 로직
 
     public void delete(Long id) {
         boardRepository.deleteById(id );
+    }
+
+    //페이징넘버
+    public Page<BoardDTO> paging(Pageable pageable){
+        int page = pageable.getPageNumber() - 1;
+        int pageLimit = 3; // 한 페이지에 보여줄 글 갯수
+        // 한페이지당 3개씩 글을 보여주고 정렬 기준은 id 기준으로 내림차순 정렬
+        // page 위치에 있는 값은 0부터 시작하기 때문에 실제 사용자가 요청한 페이지에서 -1뺀 값을 줘야함.
+        Page<BoardEntity> boardEntities =
+                boardRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id"))); //id 는 entity 컬럼명 기준
+
+        System.out.println("boardEntities.getContent() = " + boardEntities.getContent()); // 요청 페이지에 해당하는 글
+        System.out.println("boardEntities.getTotalElements() = " + boardEntities.getTotalElements()); // 전체 글갯수
+        System.out.println("boardEntities.getNumber() = " + boardEntities.getNumber()); // DB로 요청한 페이지 번호
+        System.out.println("boardEntities.getTotalPages() = " + boardEntities.getTotalPages()); // 전체 페이지 갯수
+        System.out.println("boardEntities.getSize() = " + boardEntities.getSize()); // 한 페이지에 보여지는 글 갯수
+        System.out.println("boardEntities.hasPrevious() = " + boardEntities.hasPrevious()); // 이전 페이지 존재 여부
+        System.out.println("boardEntities.isFirst() = " + boardEntities.isFirst()); // 첫 페이지 여부
+        System.out.println("boardEntities.isLast() = " + boardEntities.isLast()); // 마지막 페이지 여부
+
+        // 목록: id, writer, title, hits, createdTime
+        Page<BoardDTO> boardDTOS = boardEntities.map(board -> new BoardDTO(board.getId(), board.getBoardWriter(), board.getBoardTitle(), board.getBoardHits(), board.getCreatedTime()));
+        return boardDTOS;
     }
 }
