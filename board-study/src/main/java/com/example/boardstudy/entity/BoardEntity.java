@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // DB의 테이블 역할을 하는 클래스
 @Entity
 @Getter
@@ -30,6 +33,16 @@ public class BoardEntity extends BaseEntity {
     @Column
     private int boardHits;
 
+    @Column
+    private int fileAttached; // 1 or 0
+
+    // 게시글 기준으로
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<BoardFileEntity> boardFileEntityList = new ArrayList<>();
+
+
+
+
     // dto -> entity로 옮겨담는 작업 (service 참고)
     public static BoardEntity toSaveEntity(BoardDTO boardDTO) { //save.html 에 입력한 값을 boardDto에  담아온것을 entity로 옮겨담는다[,
         BoardEntity boardEntity = new BoardEntity();
@@ -38,6 +51,7 @@ public class BoardEntity extends BaseEntity {
         boardEntity.setBoardTitle(boardDTO.getBoardTitle());
         boardEntity.setBoardContents(boardDTO.getBoardContents());
         boardEntity.setBoardHits(0);
+        boardEntity.setFileAttached(0);//파일없음
         return boardEntity;
     }
 

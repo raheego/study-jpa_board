@@ -4,6 +4,7 @@ import com.example.boardstudy.entity.BoardEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -19,6 +20,12 @@ public class BoardDTO { //data 전 , VO , Bean
     private int boardHits; //조회수
     private LocalDateTime boardCreatedTime;
     private LocalDateTime boardUpdatedTime;
+
+    private MultipartFile boardFile; // save.html -> Controller 파일 담는 용도
+    private String originalFileName; // 원본 파일 이름
+    private String storedFileName; // 서버 저장용 파일 이름
+    private int fileAttached; // 파일 첨부 여부(첨부 1, 미첨부 0)
+
 
     //페이징처리 할 때 추가 했음 service
     public BoardDTO(Long id, String boardWriter, String boardTitle, int boardHits, LocalDateTime boardCreatedTime) {
