@@ -68,4 +68,8 @@ public class BoardService { //비즈니스 로직
 
         return findById(boardDTO.getId()); //위에 있는 findById 호출해서 넘겨줌
     }
+
+    public void delete(Long id) {
+        boardRepository.deleteById(id );
+    }
 }
