@@ -52,10 +52,9 @@ public class BoardService { //비즈니스 로직
         Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(id);
 
         //주어진 ID에 해당하는 게시글을 찾아와서 해당 게시글이 존재하면 DTO로 변환하여 반환하고, 존재하지 않으면 null을 반환하는 기능
-        if (optionalBoardEntity.isPresent()) { // id가 존재하는지 확인
+        if (optionalBoardEntity.isPresent()) {
             BoardEntity boardEntity = optionalBoardEntity.get();
-            BoardDTO boardDTO = BoardDTO.toBoardDTO(boardEntity);
-            return boardDTO;
+            return BoardDTO.toBoardDTO(boardEntity);
         } else {
             return null;
         }
