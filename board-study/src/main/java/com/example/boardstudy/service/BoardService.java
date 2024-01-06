@@ -2,10 +2,11 @@ package com.example.boardstudy.service;
 
 import com.example.boardstudy.dto.BoardDTO;
 import com.example.boardstudy.entity.BoardEntity;
+import com.example.boardstudy.entity.BoardFileEntity;
+import com.example.boardstudy.repository.BoardFileRepository;
 import com.example.boardstudy.repository.BoardRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,7 @@ import java.util.Optional;
 public class BoardService { //비즈니스 로직
 
     private final BoardRepository boardRepository; //db
+    private final BoardFileRepository boardFileRepository;
 
     //글작성
     public void save(BoardDTO boardDTO) throws IOException {
@@ -56,12 +58,12 @@ public class BoardService { //비즈니스 로직
 //            String savePath = "/Users/사용자이름/springboot_img/" + storedFileName; // C:/springboot_img/9802398403948_내사진.jpg
             boardFile.transferTo(new File(savePath)); // 5.
 
-//            BoardEntity boardEntity = BoardEntity.toSaveFileEntity(boardDTO);
-//            Long savedId = boardRepository.save(boardEntity).getId();
-//            BoardEntity board = boardRepository.findById(savedId).get();
-//
-//            BoardFileEntity boardFileEntity = BoardFileEntity.toBoardFileEntity(board, originalFilename, storedFileName);
-//            boardFileRepository.save(boardFileEntity);
+            BoardEntity boardEntity = BoardEntity.toSaveFileEntity(boardDTO);
+            Long savedId = boardRepository.save(boardEntity).getId();
+            BoardEntity board = boardRepository.findById(savedId).get();
+
+            BoardFileEntity boardFileEntity = BoardFileEntity.toBoardFileEntity(board, originalFilename, storedFileName);
+            boardFileRepository.save(boardFileEntity);
         }
     }
 

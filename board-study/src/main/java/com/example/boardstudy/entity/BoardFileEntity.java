@@ -24,7 +24,7 @@ public class BoardFileEntity extends BaseEntity {
     // 파일기준으로 하나의 게시글에 여러개 파일
     @ManyToOne(fetch = FetchType.LAZY) //
     @JoinColumn(name = "board_id") //
-    private BoardEntity boardEntity; //부모 엔티티 타입으로
+    private BoardEntity boardEntity;
 
     public static BoardFileEntity toBoardFileEntity(BoardEntity boardEntity, String originalFileName, String storedFileName) {
         BoardFileEntity boardFileEntity = new BoardFileEntity();
