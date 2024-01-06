@@ -46,13 +46,12 @@ public class BoardController {
     public String findId(@PathVariable Long id, Model model) {
         // 게시글상세를 누라면 조회수 + 1 ,  detail.html 출력
         boardService.updateHits(id);
-        BoardDTO boardDTO = boardService.findById(id); //게시글 id정보를 찾아야 한다.
-        //service에서 id를 받고 dto로 전달해야하니까 dto로 담는다.
-
+        BoardDTO boardDTO = boardService.findById(id); //게시글 id정보를 찾아야 한다.service에서 id를 받고 dto로 전달해야하니까 dto로 담는다.
         model.addAttribute("board", boardDTO); // "board"라는 이름으로 boardDTO를 모델에 추가
 
         return "detail";
     }
+
 
 }
 
