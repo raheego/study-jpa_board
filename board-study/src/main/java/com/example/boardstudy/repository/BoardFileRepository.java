@@ -1,7 +1,8 @@
 package com.example.boardstudy.repository;
 
 //import com.codingrecipe.board.entity.BoardFileEntity;
+import com.example.boardstudy.entity.BoardFileEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BoardFileRepository<BoardFileEntity> extends JpaRepository<BoardFileEntity, Long> {
+public interface BoardFileRepository extends JpaRepository<BoardFileEntity, Long> {
 }
