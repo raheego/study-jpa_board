@@ -22,7 +22,7 @@ public class CommentController {
     public ResponseEntity save(@ModelAttribute CommentDTO commentDTO) {
         System.out.println("commentDTO = " + commentDTO);
         Long saveResult = commentService.save(commentDTO);
-        
+
         if (saveResult != null) {
             // 댓글 작성 성공하면 댓글 목록을 가져와서 리턴
             // 댓글 목록 : 해당 게시글의 댓글 전체, 게시글 id가 기준이 된다.

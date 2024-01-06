@@ -1,7 +1,9 @@
 package com.example.boardstudy.controller;
 
 import com.example.boardstudy.dto.BoardDTO;
+import com.example.boardstudy.dto.CommentDTO;
 import com.example.boardstudy.service.BoardService;
+import com.example.boardstudy.service.CommentService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
@@ -21,6 +23,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService; //생성자주입
+    private final CommentService commentService;
 
     @GetMapping("/save")
     public String saveForm() {
@@ -49,6 +52,10 @@ public class BoardController {
         // 게시글상세를 누라면 조회수 + 1 ,  detail.html 출력
         boardService.updateHits(id);
         BoardDTO boardDTO = boardService.findById(id); //게시글 id정보를 찾아야 한다.service에서 id를 받고 dto로 전달해야하니까 dto로 담는다.
+
+        //댓글목록을 가져옴
+        List<CommentDTO> commentDTOList =  commentService.findAll(id);
+        model.addAttribute("commentList",commentDTOList);
         model.addAttribute("board", boardDTO); // "board"라는 이름으로 boardDTO를 모델에 추가
         model.addAttribute("page", pageable.getPageNumber());
         return "detail";
