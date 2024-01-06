@@ -36,9 +36,14 @@ public class BoardEntity extends BaseEntity {
     @Column
     private int fileAttached; // 1 or 0
 
-    // 게시글 기준으로
+    // 게시글 기준으로, 하나의 게시글에 여러개 파일
     @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<BoardFileEntity> boardFileEntityList = new ArrayList<>();
+
+    // 하나의 게시글에 여러개 댓글
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList = new ArrayList<>();
+
 
     // dto -> entity로 옮겨담는 작업 (service 참고)
     public static BoardEntity toSaveEntity(BoardDTO boardDTO) { //save.html 에 입력한 값을 boardDto에  담아온것을 entity로 옮겨담는다[,
