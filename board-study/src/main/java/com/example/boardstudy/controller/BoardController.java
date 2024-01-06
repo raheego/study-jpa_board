@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
 
 @Controller
 @RequiredArgsConstructor
@@ -52,7 +50,22 @@ public class BoardController {
         return "detail";
     }
 
+    //글수정
+    @GetMapping("/update/{id}")
+    public String updateFrom(@PathVariable Long id, Model model) {
+        BoardDTO boardDTO = boardService.findById(id); //게시글에 정보만
+        model.addAttribute("boardUpdateForm", boardDTO);
 
+        return "update";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute BoardDTO boardDTO, Model model){
+       BoardDTO board = boardService.update(boardDTO);
+       model.addAttribute("board", board);
+
+       return "detail ";
+    }
 }
 
 
